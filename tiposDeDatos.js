@@ -28,3 +28,45 @@ const array_variado = ['Mikasa',4561,true,{character: 'Eren'},[1,2.,3]];
 
 console.log(array_variado);
 console.log('Los personajes de Attack On Titan son: ',personajes);
+
+// Objetos
+
+const juego = {
+	nombre: 'Call of Duty',
+	genero: 'Shooter',
+	paisOrigen:{
+		pais: 'USA',
+		edad: 18,
+	},
+};
+
+console.log(juego);
+
+//funciones
+
+function saludar(){
+	console.log('Hola');
+}
+
+saludar();
+
+let number1 = 8,number2 = 7,suma;
+
+function sumar(a,b){
+	 let resultado;
+
+	 resultado = a + b;
+
+	 return resultado;
+}
+
+suma = sumar(number1,number2);
+
+console.log('El resultado de mi funcion sumar es: ',suma);
+
+
+const game = 'Medal of Honor';
+
+if (suma > 10) {
+	console.log('Mi juego favorito es: ',game);
+}
