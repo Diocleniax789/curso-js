@@ -1,4 +1,4 @@
-let softwares = [], nombreSoftware, op,op2, continuar = false;
+let softwares = [], nombreSoftware, op,op2, continuar = false, op3;
 
 while(continuar === false){
 	
@@ -35,6 +35,9 @@ function agregarNuevoSoftware(nuevoSoftware) {
     });
 }
 
+
+do{
+
 nombreSoftware = {
 		nombre: prompt('Ingrese nombre del software'),
 		desarrolladora: prompt('Ingrese nombre de la desarrolladora')
@@ -48,3 +51,13 @@ agregarNuevoSoftware(nombreSoftware)
     .catch(error => {
         console.log(error);
     });
+
+    do{
+    	op3 = prompt('Desea agregar otro software? [si|no]');
+		if (op3 !== 'si' && op3 !== 'no') { alert('Ingrese "si" o "no"');}
+
+	} while(op3 !== 'si' && op3 !== 'no');
+
+} while(op3 !== 'no');
+
+console.log(softwares);
