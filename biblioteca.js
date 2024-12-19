@@ -22,59 +22,51 @@ function cargarBiblioteca() {
 }
 
 function buscarLibro(titulo) {
-	return new Promise((resolve,reject) => {
-		setTimeout(() => {
-			const libroEncontrado = biblioteca.find(libro => libro.titulo === titulo);
-			if(libroEncontrado) {
-				libroEncontrado.disponibilidad = false;
-				resolve(libroEncontrado);
-			} else {
-				reject('Libro no encontrado');
-			}
-		}, 1500);
-	});
+	const libroEncontrado = biblioteca.find(unLibro => unLibro.titulo === titulo && unLibro.disponibilidad === true) ?? null;
+	if(libroEncontrado !== null){libroEncontrado.disponibilidad = false;}
+	return libroEncontrado;
 }
       
-       /* alert('Se procederá a guardar sus datos personales');
-        let cliente = {
-                    nombreYapellido: prompt('Nombre y apellido'),
-                    tituloLibro: datosLibro.titulo,
-                    fecha: new Date()
-                };
+function llevarLibro() {
+    
+    let mensaje, libroEncontrado;
 
-         librosPrestados.push(cliente);*/
-	
-
-
-async function llevarLibro() {
     if (biblioteca.length === 0) {
         alert('No hay libros en la biblioteca por el momento');
         return;
     }
 
-    let mensaje;
-    do {
+  do {
         const titulo = prompt('Titulo a buscar');
         console.log('Buscando el libro:', titulo);
+       
+        libroEncontrado = buscarLibro(titulo);
+ 
+        if(libroEncontrado !== null){
+ 
+        	console.log('Libro encontrado! Se procedera a cargar su nombre');
+        	let cliente = {
+                    nombreYapellido: prompt('Nombre y apellido'),
+                    tituloLibro: libroEncontrado.titulo,
+                    dni: prompt('Documento'),
+                    fecha: new Date()
+                };
 
-        try {
-            await buscarLibro(titulo);
-            console.log('Libro encontrado');
-        } catch (error) {
-            console.error(error);
-            alert(error); 
+             librosPrestados.push(cliente);
+        	 console.log('Disfrute su lectura');
+
+        } else {
+        	console.log('Ese libro no esta disponible!');
         }
 
         do {
-            mensaje = prompt('Llevarse otro libro?[s/n]');
+            mensaje = prompt('Llevarse otro libro? [s/n]').toLowerCase();
             if (mensaje !== 's' && mensaje !== 'n') {
                 alert('Ingrese "s" o "n"');
             }
         } while (mensaje !== 's' && mensaje !== 'n');
-
-    } while (mensaje === 's');
+    } while(mensaje !== 'n');
 }
-
 
 function librosFaltantes() {
 	let long_biblioteca = biblioteca.length;
@@ -82,11 +74,38 @@ function librosFaltantes() {
 	if(long_biblioteca === 0) {
 		alert('No hay libros cargados en la biblioteca por el momento');
 	} else {
-		const librosQueFaltan = biblioteca.filter(libro => libro.disponibilidad === false);
-
-		for(let i = 0; i < long_biblioteca; i++){
-			console.log(librosQueFaltan[i]);
+		const deudor = biblioteca.filter(unLibro => unLibro.disponibilidad === false);
+		console.log('Listado de todos los libros faltantes:');
+		for(let i = 0; i < deudor.length; i++){
+			console.log(deudor[i]);
 		}	
+	}
+}
+
+function consultarDeudores(){
+
+	if(biblioteca.length === 0){
+		console.log('No hay libros cargados en la biblioteca por el momento');
+		return;
+	} else{
+		let continuar = true, mensaje;
+		while(continuar === true) {
+			let dni = prompt('Documento');
+			let dniEncontrado = librosPrestados.find(unCliente => unCliente.dni === dni) ?? null;
+			if(dniEncontrado !== null){
+				const listadoDeudores = librosPrestados.filter(unCliente => unCliente.dni === dni);
+				console.log('Listado de libros en posecion de un determinado cliente: ');
+				for(let i = 0; i < listadoDeudores.length; i++){
+					console.log(listadoDeudores[i]);
+				}
+			} else {
+				console.log('No existe ese DNI');
+			}
+
+			mensaje = confirm('Desea consultar otro deudor?');
+			if(mensaje === false){continuar = false;}
+		}
+
 	}
 }
 
@@ -113,8 +132,9 @@ do {
 			librosFaltantes();
 		break
 		
-	/*	case 4:
-		break;	*/
+		case 4:
+			consultarDeudores();
+		break;
 	}
 
 } while(op !== 5);
