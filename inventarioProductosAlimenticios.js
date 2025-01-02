@@ -214,7 +214,7 @@ async function filtrarProductos() {
 						console.log('Nombre: ',productosFiltrados[i].nombre);
 						console.log('Descripcion del producto: ',productosFiltrados[i].descripcion);
 						console.log('Precio: ',productosFiltrados[i].precio);
-						console.log('Stock: ',productosFiltrados[i]s.stock);				
+						console.log('Stock: ',productosFiltrados[i].stock);				
 					}
 			
 				} else {
@@ -231,6 +231,35 @@ async function filtrarProductos() {
 		console.log(error);
 	}
 }
+
+async function ordenarProductosPorID() {
+		console.log('Comprobando la existencia de productos...');
+
+		try {
+			let listaVacia = await comprobarExistenciaProductos();
+
+			if (listaVacia) {
+				let productosOrdenasID = productos.sort((unProducto, otroProducto) => unProducto.id - otroProducto.id);
+					console.log('LISTADO DE TODOS LOS ARTICULOS ORDENADOS POR ID');
+					console.log('======================================================================');
+					for(let i = 0; i < productosOrdenasID.length; i++ ) {
+						console.log('Producto nro ',i + 1);
+						console.log('ID: ',productosOrdenasID[i].id);
+						console.log('Nombre: ',productosOrdenasID[i].nombre);
+						console.log('Descripcion del producto: ',productosOrdenasID[i].descripcion);
+						console.log('Precio: ',productosOrdenasID[i].precio);
+						console.log('Stock: ',productosOrdenasID[i].stock);				
+					}				
+
+			} else {
+					console.log('No hay productos en la base de datos por el momento!');
+			}
+
+		} catch(error) {
+				console.log(error);			
+		}
+}
+
 
 async function mainMenu() {
 	let option;
@@ -263,10 +292,11 @@ async function mainMenu() {
 			await filtrarProductos();
 			break;	
 
-/*			case 5:
+		case 5:
+			await ordenarProductosPorID();
 			break;
 
-			case 6:
+/*			case 6:
 			break;				
 
 			case 7:
