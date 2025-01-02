@@ -13,6 +13,61 @@ ingresarCodigo = () => {
 	return id;
 }
 
+asignarCategoria = () => {
+	let categoriaSeleccionada;
+
+	do {
+
+			categoriaSeleccionada = Number(prompt('1. Frutas y verduras | 2. Carnes y pescados | 3. Lácteos y huevos | 4. Panadería y repostería | 5. Cereales y granos | 6. Alimentos congelados | 7. Snacks y golosinas | 8. Bebidas | 9. Salsas y condimentos | 10. Pastas y arroces'));
+			if (categoriaSeleccionada < 1 || categoriaSeleccionada > 11) {
+				alert('xx EL NRO DE OPCION DEBE ESTAR EN EL RANGO DE ENTRE 1 Y 11');
+			}
+	} while(categoriaSeleccionada < 1 || categoriaSeleccionada > 11);
+
+	switch(categoriaSeleccionada) {
+			case 1:
+				return 'Frutas y verduras';
+			break;
+
+			case 2:
+				return 'Carnes y pescados';
+			break;	
+
+			case 3:
+				return 'Lácteos y huevos';
+			break;
+
+			case 4:
+				return 'Panadería y repostería';
+			break;
+
+			case 5:
+				return 'Cereales y granos';
+			break;
+
+			case 6:
+				return 'Alimentos congelados';
+			break;
+
+			case 7:
+				return 'Snacks y golosinas';
+			break;
+
+			case 8:
+				return 'Bebidas';
+			break;
+
+			case 9:
+				return 'Salsas y condimentos';
+			break;
+
+			case 10:
+				return 'Pastas y arroces';
+			break;
+	}
+
+}
+
 realizarCarga = () => {
 	return new Promise((resolve,reject) => {
 		setTimeout(() => {
@@ -23,7 +78,9 @@ realizarCarga = () => {
 								id: ingresarCodigo(),
 								nombre: prompt('Nombre del producto'),
 								descripcion: prompt('Descripcion del producto'),
-								precio: Number(prompt('Precio'))
+								categoria: asignarCategoria(),
+								precio: Number(prompt('Precio')),
+								stock: Number(prompt('Stock'))
 						};	
 
 				productos.push(producto);
@@ -43,7 +100,9 @@ realizarCarga = () => {
 										id: idNuevoProducto,
 										nombre: prompt('Nombre del producto'),
 										descripcion: prompt('Descripcion del producto'),
-										precio: Number(prompt('Precio'))
+										categoria: asignarCategoria(),
+										precio: Number(prompt('Precio')),
+										stock: Number(prompt('Stock'))
 								};
 					
 					productos.push(producto);
@@ -68,12 +127,51 @@ async function cargaDatos() {
 		} catch(error) {
 			console.log(error);
 		}
-		
+
 		option = confirm('Continuar?');
 
 	} while(option !== false);
 
 }
+
+comprobarExistenciaProductos = () => {
+	return new Promise((resolve,reject) => {
+		setTimeout(() => {
+			if(productos.length !== 0){
+				resolve(true);
+			} else {
+				reject('No se han encontrado productos en la base de datos. Intente luego');
+			}
+		},1500);
+	});
+}
+
+async function verTodosLosProductos() {
+	console.log('Generando lista de todos los productos');
+
+	try {
+
+		let listaVacia = await comprobarExistenciaProductos();
+
+		if (listaVacia) {
+			console.log('*** LISTADO DE TODOS LOS PRODUCTOS ***');
+			console.log('======================================');
+			for(let i = 0; i < productos.length; i++) {
+				console.log('Producto nro ',i + 1);
+				console.log('Nombre: ',productos[i].id);
+				console.log('Descripcion del producto: ',productos[i].descripcion);
+				console.log('Categoria: ',productos[i].categoria);
+				console.log('Precio: ',productos[i].precio);
+				console.log('Stock: ',productos[i].stock);
+			}
+		}
+
+	} catch(error) {
+			console.log(error);
+	}
+
+}
+
 
 async function mainMenu() {
 	let option;
@@ -94,10 +192,11 @@ async function mainMenu() {
 				await cargaDatos();
 			break;
 
-/*		case 2:
+  		case 2:
+				await verTodosLosProductos();
 			break;	
 
-			case 3:
+/*			case 3:
 			break;
 
 			case 4:
