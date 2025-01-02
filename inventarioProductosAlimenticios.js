@@ -188,13 +188,49 @@ async function buscarProductoPorID() {
 				console.log('No se ha encontrado ese producto');
 			}
 		}
-
 	} catch(error) {
-			console.log(error);
+		console.log(error);
 	}
-
 }
 
+async function filtrarProductos() {
+	console.log('Comprobando la existencia de productos...');
+
+	try {
+
+		let listaVacia = await comprobarExistenciaProductos();
+
+		if (listaVacia) {
+			let categoriaSeleccionada,productosFiltrados,option;
+			do {
+				categoriaSeleccionada = asignarCategoria();
+				productosFiltrados = productos.filter(unProducto => unProducto.categoria === categoriaSeleccionada);
+				if (productosFiltrados.length !== 0) {
+					console.log('LISTADO DE TODOS LOS ARTICULOS DE LA CATEGORIA: ',categoriaSeleccionada);
+					console.log('======================================================================');
+					for(let i = 0; i < productosFiltrados.length; i++ ) {
+						console.log('Producto nro ',i + 1);
+						console.log('ID: ',productosFiltrados[i].id);
+						console.log('Nombre: ',productosFiltrados[i].nombre);
+						console.log('Descripcion del producto: ',productosFiltrados[i].descripcion);
+						console.log('Precio: ',productosFiltrados[i].precio);
+						console.log('Stock: ',productosFiltrados[i]s.stock);				
+					}
+			
+				} else {
+						console.log('No hay productos de esa categoria por el momento!');
+				}	
+
+				option = confirm('Ver listado de otra categoria?');
+
+			} while(option !== false);
+
+		}
+		
+	} catch(error) {
+		console.log(error);
+	}
+}
 
 async function mainMenu() {
 	let option;
@@ -223,10 +259,11 @@ async function mainMenu() {
 			await buscarProductoPorID();
 			break;
 
-/*		case 4:
+		case 4:
+			await filtrarProductos();
 			break;	
 
-			case 5:
+/*			case 5:
 			break;
 
 			case 6:
