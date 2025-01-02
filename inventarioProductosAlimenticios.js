@@ -58,13 +58,21 @@ realizarCarga = () => {
 
 async function cargaDatos() {
 	console.log('Verificando existencia de datos...');
+	let option;
 
-	try {
-		const request = await realizarCarga();
-		console.log(request);
-	} catch(error) {
-		console.log(error);
-	}
+  do{
+
+		try {
+			const request = await realizarCarga();
+			console.log(request);
+		} catch(error) {
+			console.log(error);
+		}
+		
+		option = confirm('Continuar?');
+
+	} while(option !== false);
+
 }
 
 async function mainMenu() {
