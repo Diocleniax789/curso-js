@@ -1,6 +1,5 @@
 const productos = [];
 
-
 ingresarCodigo = () => {
 	let id;
 	do {
@@ -259,6 +258,39 @@ async function ordenarProductosPorID() {
 		} catch(error) {
 				console.log(error);			
 		}
+}
+
+async function actualizarProductos() {
+	
+	console.log('Comprobando la existencia de productos...');
+
+	let option;
+
+	do{
+		try {
+			let listaVacia = await comprobarExistenciaProductos();
+			if (listaVacia) {
+				let idNuevoProducto = ingresarCodigo();
+				let buscarProducto = productos.find(unProducto => unProducto.id === idNuevoProducto) ?? null;				
+				if (buscarProducto !== null) {
+					let stock = Number(prompt('Cantidad a agregar'));
+					buscarProducto.stock += stock;
+					console.log('Stock actualizado');
+				} else {
+					console.log('No existe ese ID');
+				}
+			} else {
+				console.log('No hay productos en la base de datos por el momento!');
+			}
+
+		} catch(error) {
+			console.log(error);
+		}
+
+		option = confirm('Actualizar stock de otros producto?');
+
+	} while(option !== false);
+	
 }
 
 
