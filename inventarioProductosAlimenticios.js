@@ -147,7 +147,8 @@ comprobarExistenciaProductos = () => {
 }
 
 async function verTodosLosProductos() {
-	console.log('Generando lista de todos los productos');
+	
+	console.log('Generando lista de todos los productos...');
 
 	try {
 
@@ -226,7 +227,7 @@ async function filtrarProductos() {
 			} while(option !== false);
 
 		}
-		
+
 	} catch(error) {
 		console.log(error);
 	}
@@ -267,13 +268,13 @@ async function mainMenu() {
 	do {
 		
 		do {
-			option = Number(prompt('1. Cargar datos de productos | 2. Ver todos los productos | 3. Buscar productos | 4. Filtrar productos por categoría | 5. Ordenar productos por ID | 6. Agregar un nuevo producto | 7. Actualizar la cantidad de un producto | 8. Eliminar un producto | 9. Mostrar resumen del inventario | 10. Salir del programa'));
+			option = Number(prompt('1. Cargar datos de productos | 2. Ver todos los productos | 3. Buscar productos | 4. Filtrar productos por categoría | 5. Ordenar productos por ID | 6. Actualizar la cantidad de un producto | 7. Eliminar un producto | 8. Mostrar resumen del inventario | 9. Salir del programa'));
 
-			if(option < 1 || option > 10) {
+			if(option < 1 || option > 9) {
 				alert('xx DEBE INGRESAR UN NUMERO DE ENTRE 1 Y 10. INTENTE NUEVAMENTE xx');
 			} 
 
-		} while(option < 1 || option > 10);
+		} while(option < 1 || option > 9);
 
 		switch(option) {
 		case 1:
@@ -296,21 +297,18 @@ async function mainMenu() {
 			await ordenarProductosPorID();
 			break;
 
-/*			case 6:
+		case 6:
+			await actualizarProductos();
 			break;				
 
-			case 7:
+/*			case 7:
 			break;
 
 			case 8:
-			break;	
-
-			case 9:
-			break;	 */
-
+			break;	*/
 		}
 
-	} while(option !== 10);
+	} while(option !== 9);
 }
 
 mainMenu();
