@@ -327,13 +327,13 @@ async function mainMenu() {
 	do {
 		
 		do {
-			option = Number(prompt('1. Cargar datos de productos | 2. Ver todos los productos | 3. Buscar productos | 4. Filtrar productos por categoría | 5. Ordenar productos por ID | 6. Actualizar la cantidad de un producto | 7. Eliminar un producto | 8. Mostrar resumen del inventario | 9. Salir del programa'));
+			option = Number(prompt('1. Cargar datos de productos | 2. Ver todos los productos | 3. Buscar productos | 4. Filtrar productos por categoría | 5. Ordenar productos por ID | 6. Actualizar la cantidad de un producto | 7. Eliminar un producto | 8. Salir del programa'));
 
-			if(option < 1 || option > 9) {
+			if(option < 1 || option > 8) {
 				alert('xx DEBE INGRESAR UN NUMERO DE ENTRE 1 Y 10. INTENTE NUEVAMENTE xx');
 			} 
 
-		} while(option < 1 || option > 9);
+		} while(option < 1 || option > 8);
 
 		switch(option) {
 		case 1:
@@ -364,11 +364,7 @@ async function mainMenu() {
 			await eliminarProducto();
 			break;
 
-/*				case 8:
-			break;	*/
-		}
-
-	} while(option !== 9);
+	} while(option !== 8);
 }
 
 mainMenu();
