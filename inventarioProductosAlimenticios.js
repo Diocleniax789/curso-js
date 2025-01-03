@@ -290,9 +290,36 @@ async function actualizarProductos() {
 		option = confirm('Actualizar stock de otros producto?');
 
 	} while(option !== false);
-	
+
 }
 
+async function eliminarProducto() {
+	console.log('Comprobando la existencia de productos...');
+	let option;
+
+	do{
+		try {
+			let listaVacia = await comprobarExistenciaProductos();
+			if (listaVacia) {
+				let idNuevoProducto = ingresarCodigo();
+				let indexEncontrado = productos.findIndex(unProducto => unProducto.id === idNuevoProducto);
+				if (indexEncontrado !== -1) {
+					productos.splice(indexEncontrado, 1);
+					console.log('Producto eliminado');
+				} else {
+					console.log('No existe ese id');
+				}
+			}
+
+		} catch(error) {
+			console.log(error);
+		}
+
+		option = confirm('Eliminar otro producto?');
+
+	} while(option !== false);
+
+}
 
 async function mainMenu() {
 	let option;
@@ -333,10 +360,11 @@ async function mainMenu() {
 			await actualizarProductos();
 			break;				
 
-/*			case 7:
+		case 7:
+			await eliminarProducto();
 			break;
 
-			case 8:
+/*				case 8:
 			break;	*/
 		}
 
